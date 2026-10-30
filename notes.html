@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta name="robots" content="noindex,nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>电竞赛事技术研究框架 · 讲解备注 v1</title>
+<style>
+:root{--ink:#1F2329;--ink2:#4E5561;--ink3:#8A919C;--line:#E3E6EB;--bg:#F6F7F9;
+--exp:#0F6E56;--exp-bg:#E9F6F1;--run:#185FA5;--run-bg:#EAF2FB;--base:#5F5E5A;--base-bg:#F2F1EC;--x:#534AB7;--x-bg:#F0EFFC}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Microsoft YaHei","微软雅黑","PingFang SC",sans-serif;color:var(--ink);background:#fff;font-size:14px;line-height:1.75}
+.mono{font-family:"IBM Plex Mono",Consolas,"Microsoft YaHei",monospace}
+.wrap{max-width:960px;margin:0 auto;padding:36px 28px 80px}
+h1{font-size:24px;font-weight:700}
+.lead{color:var(--ink2);margin-top:8px}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;font-size:12.5px;color:var(--ink3)}
+nav{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);margin:20px -28px 0;padding:10px 28px;display:flex;flex-wrap:wrap;gap:6px;z-index:5}
+nav a{font-size:12.5px;text-decoration:none;color:var(--ink2);border:1px solid var(--line);border-radius:6px;padding:3px 9px;white-space:nowrap}
+nav a:hover{border-color:#B9BEC6;color:var(--ink)}
+nav a b{font-weight:600;margin-right:4px}
+.tag{display:inline-block;font-size:11px;line-height:16px;padding:0 5px;border-radius:4px;margin-left:4px;vertical-align:1px;white-space:nowrap}
+.t-in{background:#EAF2FB;color:#185FA5}.t-pub{background:#E9F6F1;color:#0F6E56}.t-chk{background:#FDF1E3;color:#B45309}
+.pri{font-size:11.5px;font-weight:600;padding:1px 7px;border-radius:4px;line-height:18px}
+.p0{background:#B42318;color:#fff}.p1{border:1px solid #B45309;color:#B45309}.p2{border:1px solid #8A919C;color:#8A919C}
+section{margin-top:40px;scroll-margin-top:60px}
+.dh{display:flex;align-items:center;gap:10px;border-left:4px solid var(--c);padding-left:12px}
+.dh .code{font-size:15px;font-weight:600;color:var(--c)}
+.dh h2{font-size:19px;font-weight:700}
+.dh .layer{font-size:12px;color:var(--ink3);margin-left:auto}
+.c-exp{--c:var(--exp);--cb:var(--exp-bg)}.c-run{--c:var(--run);--cb:var(--run-bg)}.c-base{--c:var(--base);--cb:var(--base-bg)}.c-x{--c:var(--x);--cb:var(--x-bg)}
+.one{margin-top:10px;color:var(--ink2)}
+.qa{margin-top:10px;background:var(--cb);border-radius:8px;padding:10px 14px;font-size:13.5px}
+.qa b{color:var(--c)}
+.bp{margin-top:14px;border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+.bp h3{font-size:15.5px;font-weight:700;display:flex;align-items:center;gap:8px}
+.bp h3 .n{font-size:12px;color:var(--c);font-weight:600}
+.kv{display:grid;grid-template-columns:90px 1fr;gap:6px 12px;margin-top:8px}
+.kv dt{font-size:12.5px;color:var(--ink3);padding-top:2px;white-space:nowrap}
+.kv dd{font-size:13.5px;color:var(--ink)}
+.kv dd.focus{color:var(--ink)}
+.kv dt.f{color:#B42318}
+.x-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
+.foot{margin-top:48px;font-size:12px;color:var(--ink3);border-top:1px solid var(--line);padding-top:12px}
+@media print{nav{position:static}.bp{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>电竞赛事技术研究框架 · 讲解备注</h1>
+<p class="lead">配合<a href="framework.html">《电竞赛事技术研究框架·一页 v6》</a>使用。逐条解释 8 个技术域的 32 个研究子项：它和电竞赛事的关系、会涉及哪些具体技术、讲的时候要注意什么。每个技术域开头附一个老板可能问的问题。</p>
+<div class="legend"><span><span class="tag t-in">内部</span> 出自内部材料</span><span><span class="tag t-pub">公开</span> 出自公开报道</span><span><span class="tag t-chk">待核实</span> 方向成立，细节或数字需要再确认</span></div>
+
+<nav>
+<a href="#d1"><b class="mono">D1</b>游戏竞技底座</a><a href="#d2"><b class="mono">D2</b>网络与现场</a><a href="#d3"><b class="mono">D3</b>赛事组织与管理</a><a href="#d4"><b class="mono">D4</b>执赛与竞技诚信</a><a href="#d5"><b class="mono">D5</b>制作与转播</a><a href="#d6"><b class="mono">D6</b>赛事数据与成绩</a><a href="#d7"><b class="mono">D7</b>观赛与内容分发</a><a href="#d8"><b class="mono">D8</b>训练与人才发展</a><a href="#x"><b>横切</b>4 条主题</a>
+</nav>
+
+<!-- D1 -->
+<section id="d1" class="c-base">
+<div class="dh"><span class="code mono">D1</span><h2>游戏竞技底座</h2><span class="pri p1 mono">P1</span><span class="layer">底座层</span></div>
+<p class="one">游戏本身为比赛提供的能力，大多由发行商或游戏项目组自研。上层的执赛、转播、数据能做到什么程度，取决于这一层开放了多少。</p>
+<div class="qa"><b>可能问：</b>游戏底座是项目组的事，我们为什么要研究？<br><b>答：</b>我们不研究怎么做游戏，只研究各游戏为比赛开放了哪些能力、以什么方式开放。这决定了执赛监控和赛事数据能做到哪一步。</div>
+
+<div class="bp"><h3><span class="n mono">1</span>赛事服与网络同步</h3><dl class="kv">
+<dt>和电竞的关系</dt><dd>正式比赛不跑在普通玩家的服务器上，而是跑在专用的赛事服里。服务器怎么同步所有选手的操作，直接决定比赛公不公平，也决定会不会出现"明明我先开枪"这类争议。</dd>
+<dt>涉及技术</dt><dd>独立赛事服（Riot 叫 Tournament Realm）；服务器刷新频率（tick rate，VALORANT 为 128 tick）；延迟补偿与命中判定；格斗游戏的回滚网络代码（rollback netcode）；断线重连与比赛暂停机制。</dd>
+<dt class="f">关注点</dt><dd>各游戏赛事服是否和线上服隔离、能否在场馆本地部署；线下赛和线上赛的判定差异；手游在无线网络下怎么保证同步。</dd>
+</dl></div>
+
+<div class="bp"><h3><span class="n mono">2</span>OB 观战与回放</h3><dl class="kv">
+<dt>和电竞的关系</dt><dd>OB 就是游戏内的"摄像师"。转播里看到的游戏画面并不是选手屏幕，而是观战系统重新渲染出来的；回放则是事后判罚和复盘的依据。</dd>
+<dt>涉及技术</dt><dd>观战客户端与延时观战（防止有人通过直播偷看对手信息）；导播视角与自由镜头；对局录像与回放文件；断点回滚，例如英雄联盟的 Chronobreak 能把对局退回到 bug 发生之前，KPL 也有"时光回溯"。<span class="tag t-in">内部</span></dd>
+<dt class="f">关注点</dt><dd>观战延迟设多长；回放能否逐帧查看、能否被外部系统读取；回滚重赛的规则由谁裁定。</dd>
+</dl></div>
+
+<div class="bp"><h3><span class="n mono">3</span>比赛服数据接口</h3><dl class="kv">
+<dt>和电竞的关系</dt><dd>击杀、经济、位置这些数据都在游戏服务器里，只有游戏开放接口，外部才能拿来做图文包装、执赛监控和数据产品。它决定了 D4、D5、D6 的上限。</dd>
+<dt>涉及技术</dt><dd>官方数据 API 与实时事件流；CS2 的 Game State Integration（GSI，游戏把实时状态推送给本地程序）；没有接口时的替代方案：OCR 识别画面、直接采集键盘鼠标输入。</dd>
+<dt>例子</dt><dd>ECS 后续方向就是用"接口 + OCR"打通游戏数据；日本亚运的成绩供应商 Bornan 曾找我们帮忙对接所有游戏数据。<span class="tag t-in">内部</span></dd>
+<dt class="f">关注点</dt><dd>哪些游戏开放、开放给谁、时延多少。海外官方数据多是独家授权给 GRID；国内各项目组的开放情况，是目前最大的信息缺口。</dd>
+</dl></div>
+
+<div class="bp"><h3><span class="n mono">4</span>赛事版本与参数锁定</h3><dl class="kv">
+<dt>和电竞的关系</dt><dd>游戏会持续更新，平衡性和 bug 跟着变。比赛必须锁定在一个版本上，才能保证所有队伍条件一致。</dd>
+<dt>涉及技术</dt><dd>赛事专用客户端（全英雄、全道具解锁）；临时禁用有 bug 的英雄或道具；房间设置、地图池等比赛参数配置；亚运专用版本，例如"和平精英亚运版""第五人格亚运版"。</dd>
+<dt class="f">关注点</dt><dd>版本什么时候冻结、由谁维护；综合赛事里多个项目怎么统一配置。ECS 的做法是按每个游戏的标准配置，把开赛流程固定下来。<span class="tag t-in">内部</span></dd>
+</dl></div>
+</section>
+
+<!-- D2 -->
+<section id="d2" class="c-base">
+<div class="dh"><span class="code mono">D2</span><h2>网络与现场基础设施</h2><span class="pri p1 mono">P1</span><span class="layer">底座层</span></div>
+<p class="one">线下赛事现场的网络、无线、电力和设备运输。电竞对现场稳定性的要求远高于一般活动，一次掉线就可能导致重赛。</p>
+<div class="qa"><b>可能问：</b>网络和现场不就是工程执行吗，有什么技术含量？<br><b>答：</b>ECS 把稳定性定为第一准则；出海赛事还会遇到电压、无线频谱、跨境网络这些真实问题，而且这些都是行业可以统一标准的领域。</div>
+
+<div class="bp"><h3><span class="n mono">1</span>赛事专网与容灾</h3><dl class="kv">
+<dt>和电竞的关系</dt><dd>比赛网络一旦中断，比赛就得暂停甚至重赛，所以选手用的网络必须独立且有备份。</dd>
+<dt>涉及技术</dt><dd>选手网、转播网、办公网、观众网相互隔离；双运营商线路热备；BFD（毫秒级发现链路故障）与 M-LAG（两台设备互为备份），切换时不丢包；核心设备和电力双备份。<span class="tag t-in">内部</span></dd>
+<dt class="f">关注点</dt><dd>行业有没有统一的网络指标（内部材料结论是没有）；跨国比赛怎么加速。ECS 为 EWC 接入过跨国网络加速器。<span class="tag t-in">内部</span></dd>
+</dl></div>
+
+<div class="bp"><h3><span class="n mono">2</span>无线频谱与内通</h3><dl class="kv">
+<dt>和电竞的关系</dt><dd>大型场馆里，选手语音、裁判对讲、导播内通、无线摄像和观众手机同时在用无线信号，频谱一拥挤就会互相干扰。手游比赛的选手设备本身也依赖无线。</dd>
+<dt>涉及技术</dt><dd>无线内通系统；频率扫描与频谱规划；Wi-Fi 信道调优；手游比赛的有线化改造（内部材料提到 Type-C 有线化）。</dd>
+<dt>例子</dt><dd>EWC 2026 巴黎单馆同时使用 341 台 Riedel 无线内通腰包，为此向法国国家频率管理局申请了额外频谱。<span class="tag t-pub">公开</span></dd>
+<dt class="f">关注点</dt><dd>手游比赛的无线稳定性；海外场馆的频谱审批流程。</dd>
+</dl></div>
+
+<div class="bp"><h3><span class="n mono">3</span>网络监控与防攻击</h3><dl class="kv">
+<dt>和电竞的关系</dt><dd>网络波动往往一闪而过，没有监控记录，事后就无法判断它是否影响了比赛。线上赛和直播还会遭遇 DDoS 攻击。</dd>
+<dt>涉及技术</dt><dd>延迟、抖动、丢包实时监测；PRTG 等网络监控工具（PGL 办 CS2 Major 时使用）；Anycast 与流量清洗，用于防御 DDoS；网络自动修复工具。<span class="tag t-in">内部</span></dd>
+<dt class="f">关注点</dt><dd>网络监控数据能不能作为判罚证据，这一点与 D4 衔接；ECS 已有网络监控和修复工具。</dd>
+</dl></div>
+
+<div class="bp"><h3><span class="n mono">4</span>电力、物流与本地部署</h3><dl class="kv">
+<dt>和电竞的关系</dt><dd>赛事设备要跨城市、跨国运输和部署，到了现场，条件很难控制。</dd>
+<dt>涉及技术</dt><dd>UPS 与电力容灾；航空箱防震包装标准；RFID 与传感器监测运输过程中的冲击和温湿度；服务器在场馆本地部署。</dd>
+<dt>例子</dt><dd>日本测试赛当地电压是 110V，国内没有 110V 测试环境，无法提前验证；运输中有一体机、编解码盒子、屏幕损坏。ECS 名古屋全部服务器本地部署，以规避数据跨境合规问题和网络延迟。<span class="tag t-in">内部</span> Riot 的远程转播中心同时承担比赛硬件的仓储和质检。<span class="tag t-pub">公开</span></dd>
+<dt class="f">关注点</dt><dd>出海赛事的设备标准和物流规范，内部材料把它列为可以牵头定标准的领域。</dd>
+</dl></div>
+</section>
+
+<!-- D3 -->
+<section id="d3" class="c-run">
+<div class="dh"><span class="code mono">D3</span><h2>赛事组织与管理</h2><span class="pri p0 mono">P0</span><span class="layer">赛事运行层</span></div>
+<p class="one">一场比赛从"谁有权办"到"把选手送进游戏房间"背后的系统，决定了赛事生态是开放还是封闭，也决定了办一场赛事的成本。</p>
+<div class="qa"><b>可能问：</b>授权、联盟这些是业务系统，算"技术"吗？<br><b>答：</b>算。授权模式决定生态开放程度，赛制算法决定公平性，开房接入决定办赛成本，它们是赛事体系的基础设施。海外 FACEIT、start.gg 这类平台也是以技术平台的身份在竞争。</div>
+
+<div class="bp"><h3><span class="n mono">1</span>赛事授权</h3><dl class="kv">
+<dt>和电竞的关系</dt><dd>电竞和传统体育最大的不同是"项目归发行商所有"，任何人办赛都要先拿授权。授权模式决定了第三方赛事方和技术供应商有多大空间。</dd>
+<dt>涉及技术</dt><dd>授权申请与资质审核系统；电子合同签署；赛事备案与品牌使用管理。</dd>
+<dt>例子</dt><dd>腾讯赛事授权系统已用于英雄联盟、王者荣耀、和平精英等 20 多款游戏。<span class="tag t-in">内部</span> 对照样本：Valve 对 CS2 采取开放办赛模式，2025 年起不再允许独占合作联赛。<span class="tag t-chk">待核实</span></dd>
+<dt class="f">关注点</dt><dd>各大发行商的授权政策差异（Riot 合作伙伴制、Valve 开放制、腾讯授权制），这是理解海外赛事格局的钥匙。</dd>
+</dl></div>
+
+<div class="bp"><h3><span class="n mono">2</span>联盟、俱乐部与选手管理</h3><dl class="kv">
+<dt>和电竞的关系</dt><dd>职业联赛（LPL、KPL、LCK 等）是"联盟 + 固定席位俱乐部"体系，选手注册、合同、转会都要系统化管理。</dd>
+<dt>涉及技术</dt><dd>俱乐部注册与选手身份核验；合同在线推送与签署；转会挂牌、拍卖与交易流转；联盟数据库。</dd>
+<dt>例子</dt><dd>腾讯联盟管理系统已用于王者、和平、CF、CODM、QQ 飞车。<span class="tag t-in">内部</span></dd>
+<dt class="f">关注点</dt><dd>海外联盟怎么做选手管理与转会；选手个人数据的隐私合规。</dd>
+</dl></div>
+
+<div class="bp"><h3><span class="n mono">3</span>赛程编排与多赛制</h3><dl class="kv">
+<dt>和电竞的关系</dt><dd>赛制决定比赛场次、对阵关系和公平性。规模越大，比如几十万人参加的海选，越需要算法自动编排。</dd>
+<dt>涉及技术</dt><dd>单败、双败淘汰；单循环、双循环；瑞士轮（CS2 Major 采用）；BP 规则，例如英雄联盟 2025 年起使用的 Fearless Draft（一个系列赛里用过的英雄不能再选）；种子排位与分组算法；场地与时间排期。<span class="tag t-pub">公开</span></dd>
+<dt>例子</dt><dd>TGA 赛程编排引擎；瓦手官方海选赛匹配 34 万多局，超过 93% 的对局在 20 秒内完成匹配。<span class="tag t-in">内部</span></dd>
+<dt class="f">关注点</dt><dd>综合赛事的排期难度，名古屋亚运是 11 个小项在 11 个比赛日内连续进行，部分比赛日单日决出两块金牌。</dd>
+</dl></div>
+
+<div class="bp"><h3><span class="n mono">4</span>办赛 SaaS 与开房</h3><dl class="kv">
+<dt>和电竞的关系</dt><dd>网吧赛、高校赛、水友赛数量大、单场预算低，只能靠标准化平台低成本办赛。最难的一步是把报名的人"送进"游戏房间，再把赛果拿回来。</dd>
+<dt>涉及技术</dt><dd>报名组队、自动对阵与签到；匹配与评分模型（Elo、Glicko、TrueSkill）；通过游戏接口或云手机自动开房；赛果自动回传与识别；自动发奖。</dd>
+<dt>例子</dt><dd>TGA 赛事平台、电竞Go<span class="tag t-in">内部</span>；海外有 FACEIT、start.gg、Challengermode。<span class="tag t-pub">公开</span></dd>
+<dt class="f">关注点</dt><dd>游戏接入成本高，这是 TGA 端内官方赛的主要瓶颈；还要关注防代打和信誉体系怎么低成本实现。</dd>
+</dl></div>
+</section>
+
+<!-- D4 -->
+<section id="d4" class="c-run">
+<div class="dh"><span class="code mono">D4</span><h2>执赛与竞技诚信</h2><span class="pri p0 mono">P0</span><span class="layer">赛事运行层</span></div>
+<p class="one">保证比赛公平、出了争议能说清楚的一整套技术，相当于电竞赛场的 VAR 和鹰眼。</p>
+<div class="qa"><b>可能问：</b>我们有 ECS，行业里还有谁在做？<br><b>答：</b>职业联赛大多各自有执裁工具，第三方赛事则由执赛供应商用多款专业工具组合起来做，比如 VSPO、NEOTV、PGL。在综合运动会场景，媒体报道称 ECS 是目前唯一应用于大型洲际综合运动会的电竞竞赛系统。这是媒体口径，研究中会再核实。</div>
+
+<div class="bp"><h3><span class="n mono">1</span>设备标准化与检录</h3><dl class="kv">
+<dt>和电竞的关系</dt><dd>电竞的"器材"是电脑、手机和外设。器材不一致或被动了手脚，就谈不上公平，而选手自带外设又是常态。</dd>
+<dt>涉及技术</dt><dd>比赛用机一键标准化与批量管控（系统、驱动、游戏设置统一）；外设检录（按键、摇杆、宏、轮询率）；设备白名单与硬件指纹。</dd>
+<dt>例子</dt><dd>ECS 在杭州亚运为 200 多台手机、150 多台电脑做自动标准化，外设检录效率提升 3 倍以上；PGL 办 CS2 Major 时用 Keyboard Inspector 和 HID Listen 检查键盘。<span class="tag t-in">内部</span></dd>
+<dt class="f">关注点</dt><dd>设备标准由谁定：KPL 只用赞助商指定的手机，亚运允许选手报备后自带外设；主机和街机设备怎么检测，名古屋就有街霸、铁拳、GT7 等项目。</dd>
+</dl></div>
+
+<div class="bp"><h3><span class="n mono">2</span>反作弊与防代打</h3><dl class="kv">
+<dt>和电竞的关系</dt><dd>外挂和代打是电竞公信力最大的威胁。线下比赛能管住设备，线上赛和大众赛的风险高得多。</dd>
+<dt>涉及技术</dt><dd>内核级反作弊（腾讯 ACE、Riot Vanguard、FACEIT 反作弊）；2026 年起转向硬件信任链，要求 TPM 2.0、安全启动、IOMMU，专门对付插在电脑上直接读取内存的"DMA 硬件外挂"；键盘宏检测；防代打依靠人脸、声纹和操作习惯识别。</dd>
+<dt>例子</dt><dd>FACEIT 在 3 个月的 IOMMU 试点中封禁了 200 多名 DMA 作弊者；腾讯电竞公平竞技方案有金融级人脸比对、声纹比对等能力，官网称有 17 项电竞专利。<span class="tag t-pub">公开</span></dd>
+<dt class="f">关注点</dt><dd>内部材料的结论是"反作弊目前只用于辅助处理争议，不直接用于判决"；生物特征采集的隐私合规；ECS 已去掉自带反作弊，改用游戏自带的 ACE。<span class="tag t-in">内部</span></dd>
+</dl></div>
+
+<div class="bp"><h3><span class="n mono">3</span>公平延时</h3><dl class="kv">
+<dt>和电竞的关系</dt><dd>延迟高的一方天然吃亏。线上赛或多地联赛中，选手离服务器的距离不同，延迟也就不同。</dd>
+<dt>涉及技术</dt><dd>把同一局所有选手的延迟拉到同一个目标值，延迟低的一方人为补齐；边缘节点就近接入；专线加速。</dd>
+<dt>例子</dt><dd>腾讯公平延时方案的示意：选手 A 物理延迟 63ms、选手 B 只有 9ms，目标统一设为 60ms，补齐后分别为 63ms 和 61ms，两边基本一致。<span class="tag t-pub">公开</span></dd>
+<dt class="f">关注点</dt><dd>差多少毫秒算"公平"，行业没有统一标准。内部材料设想线下 ≤5ms、线上 &lt;30ms<span class="tag t-chk">待核实</span>；手游在无线网络下效果如何。</dd>
+</dl></div>
+
+<div class="bp"><h3><span class="n mono">4</span>监控回溯与判罚</h3><dl class="kv">
+<dt>和电竞的关系</dt><dd>卡顿、设备异常、违规操作往往发生在机器内部而且转瞬即逝，必须有数据和画面，裁判才能"看得见、查得到、说得清"。</dd>
+<dt>涉及技术</dt><dd>选手第一视角和手部画面采集；低延迟监看（1 秒内）加逐帧回放；设备与网络指标实时告警；多路信号对齐到同一时间轴；判罚记录与证据链留存。</dd>
+<dt>例子</dt><dd>ECS 名古屋亚运部署了 110 个选手第一视角摄像头和 150 个编码器，最多同时推 180 路流，每天最多 1.6 亿条设备监控数据，实时监测 30 多项指标。<span class="tag t-in">内部</span></dd>
+<dt class="f">关注点</dt><dd>证据链能否成为正式判罚依据；和转播方视频设备怎么整合。内部判断是 ECS 难以替代广电级直转播，应走集成路线。</dd>
+</dl></div>
+</section>
+
+<!-- D5 -->
+<section id="d5" class="c-run">
+<div class="dh"><span class="code mono">D5</span><h2>制作与转播</h2><span class="pri p0 mono">P0</span><span class="layer">赛事运行层</span></div>
+<p class="one">把比赛变成直播节目的全过程，是赛事投入最大、供应商最多、观众感知最直接的环节。</p>
+<div class="qa"><b>可能问：</b>这块我们做得少，为什么排 P0？<br><b>答：</b>这份研究的目的是看清行业全貌。转播是赛事的门面，也是技术升级最快的环节，不讲它，全貌就缺了一大块。</div>
+
+<div class="bp"><h3><span class="n mono">1</span>信号采集与 IP 化</h3><dl class="kv">
+<dt>和电竞的关系</dt><dd>一场电竞转播要同时处理游戏画面、现场摄像机、选手第一视角、解说和图文，信号数量比普通体育赛事多得多。</dd>
+<dt>涉及技术</dt><dd>多讯道摄像与选手第一视角；游戏画面采集；从传统 SDI 线缆向 IP 网络传输迁移（SMPTE ST 2110 标准）；JPEG XS 浅压缩；多路信号帧同步（Genlock、PTP 时钟）。</dd>
+<dt>例子</dt><dd>EWC 2026 巴黎用 140 多台 Riedel MediorNet 设备，传输 300 多路摄像机信号和大量游戏、图文信号。<span class="tag t-pub">公开</span></dd>
+<dt class="f">关注点</dt><dd>游戏画面和现场画面的帧级同步；行业没有统一技术规范，主要由供应商定标准。<span class="tag t-in">内部</span></dd>
+</dl></div>
+
+<div class="bp"><h3><span class="n mono">2</span>远程与云制作</h3><dl class="kv">
+<dt>和电竞的关系</dt><dd>电竞赛事在全球多地举办、多语种播出，如果每个场馆都配一整套导播团队，成本极高。远程制作把"制作"集中到中心完成。</dd>
+<dt>涉及技术</dt><dd>远程制作（REMI：现场只放采集设备，切换、包装在远程中心完成）；私有骨干网回传；云上制作与多语种分发。</dd>
+<dt>例子</dt><dd>Riot Project Stryker：都柏林中心基于 AWS，可以同时制作 6 场直播，现场信号经 Riot 自建的骨干网 Riot Direct 回传；三个中心彼此相隔 8 个时区，轮流接力。<span class="tag t-pub">公开</span></dd>
+<dt class="f">关注点</dt><dd>远程制作的延迟与可靠性；国内有没有类似的集中化制作中心。</dd>
+</dl></div>
+
+<div class="bp"><h3><span class="n mono">3</span>实时包装与 XR</h3><dl class="kv">
+<dt>和电竞的关系</dt><dd>比分、经济、阵容等图文和虚拟舞台，是电竞转播的标志性部分。</dd>
+<dt>涉及技术</dt><dd>实时图文系统（Vizrt 等）；游戏引擎驱动的虚拟演播室（Unreal Engine，以及 Pixotope、Zero Density）；摄像机跟踪；XR 与 LED 虚拟舞台。</dd>
+<dt>例子</dt><dd>2017 年英雄联盟全球总决赛开幕式的 AR 远古巨龙；公开报道称 Riot 与 The Future Group 在 LPL 赛区决赛实现了首次实时光线追踪直播。<span class="tag t-chk">待核实</span></dd>
+<dt class="f">关注点</dt><dd>图文里的数据来自 D6，两者是联动的；投入成本和复用程度。</dd>
+</dl></div>
+
+<div class="bp"><h3><span class="n mono">4</span>AI 导播与自动剪辑</h3><dl class="kv">
+<dt>和电竞的关系</dt><dd>游戏内导播和剪辑高度依赖人力，AI 能降低成本，让更多中小赛事也能有像样的转播。</dd>
+<dt>涉及技术</dt><dd>根据游戏数据自动切换镜头；自动识别精彩时刻并生成回放；OCR 识别画面后自动剪辑；AI 多语种字幕与解说。</dd>
+<dt>例子</dt><dd>LHM 的 Scout AI 可在 CS2 中自动观战切镜头<span class="tag t-pub">公开</span>；我方开播助手用 OCR 识别比赛内容自动剪辑，已用于九州电竞瓦罗兰特比赛。<span class="tag t-in">内部</span></dd>
+<dt class="f">关注点</dt><dd>AI 在顶级赛事里能替代到什么程度；剪辑内容的版权与平台分发规则。</dd>
+</dl></div>
+</section>
+
+<!-- D6 -->
+<section id="d6" class="c-run">
+<div class="dh"><span class="code mono">D6</span><h2>赛事数据与成绩</h2><span class="pri p0 mono">P0</span><span class="layer">赛事运行层</span></div>
+<p class="one">比赛数据的采集、分发和使用。图文、解说、成绩、复盘、博彩用的都是同一份数据，谁掌握官方数据，谁就掌握下游生意。</p>
+<div class="qa"><b>可能问：</b>数据为什么这么重要？<br><b>答：</b>它是下游所有应用的共同原料。海外已经出现 GRID 这样几乎独家的官方数据商，综合运动会的成绩系统也必须接入游戏数据，这是 ECS 下一步明确要补的能力。</div>
+
+<div class="bp"><h3><span class="n mono">1</span>官方实时数据</h3><dl class="kv">
+<dt>和电竞的关系</dt><dd>传统体育的比分谁都看得到，电竞的比赛状态却在游戏引擎里，只有拿到授权才能从服务器直接取到最快、最全的数据。</dd>
+<dt>涉及技术</dt><dd>服务器直采的实时数据流（亚秒级）；多款游戏统一的数据格式；数据分发 API。</dd>
+<dt>例子</dt><dd>GRID 持有 Riot、Ubisoft、Krafton、ESL FACEIT、BLAST 的官方数据权，2025 年收购了破产的 Bayes Esports 的知识产权，官方数据供应几乎只剩一家；EWC 的数据服务商就是 GRID。<span class="tag t-pub">公开</span><span class="tag t-in">内部</span></dd>
+<dt class="f">关注点</dt><dd>数据权属归发行商还是赛事方；国内有没有类似角色；这一项和 D1 的数据接口是一体两面。</dd>
+</dl></div>
+
+<div class="bp"><h3><span class="n mono">2</span>计时计分与成绩系统</h3><dl class="kv">
+<dt>和电竞的关系</dt><dd>亚运会这类综合运动会要求每个项目的成绩都进入统一的成绩系统，用于公布、排名、颁奖和电视图文，电竞也不例外。</dd>
+<dt>涉及技术</dt><dd>赛事管理系统 GMS（注册、认证、住宿、交通、志愿者）；毫秒级计时与成绩采集校验；统一的成绩数据格式（奥运体系用 ODF，亚运是否沿用需确认）<span class="tag t-chk">待核实</span>；成绩发布。</dd>
+<dt>例子</dt><dd>Bornan 是日本亚运一级合作伙伴，提供 GMS 和计时计分，曾希望我们帮它对接所有游戏数据。<span class="tag t-in">内部</span></dd>
+<dt class="f">关注点</dt><dd>游戏赛果怎么自动进入成绩系统；ECS 已规划扩展现场计时计分方案。</dd>
+</dl></div>
+
+<div class="bp"><h3><span class="n mono">3</span>数据产品与解说图文</h3><dl class="kv">
+<dt>和电竞的关系</dt><dd>数据要变成观众看得懂的内容，才能提升观赛体验和商业价值。</dd>
+<dt>涉及技术</dt><dd>数据组件（统计、地图、比赛趋势）；解说员信息系统 CIS（给解说实时推送统计和历史背景）；电视转播图形；AI 解读与预测，如实时胜率。</dd>
+<dt>例子</dt><dd>GRID Widgets 与 GRID AI Insights；Bornan 的 CIS 与电视图形；我方开播助手的实时胜率、阵容强度预测。<span class="tag t-in">内部</span></dd>
+<dt class="f">关注点</dt><dd>数据叙事的深度。内部材料的判断是电竞数据可视化停留在浅层展示，对照 F1 用 AWS 实时模拟进站策略。</dd>
+</dl></div>
+
+<div class="bp"><h3><span class="n mono">4</span>博彩诚信监测</h3><dl class="kv">
+<dt>和电竞的关系</dt><dd>海外电竞博彩增长很快，比赛中实时下注约占 70%，假赛风险随之上升。诚信监测通过盯赔率和投注异常来发现假赛。</dd>
+<dt>涉及技术</dt><dd>基于官方数据的赔率与交易系统；异常投注模式识别；与诚信组织共享预警。</dd>
+<dt>例子</dt><dd>GRID 2026 年推出 GRID Odds，并与 Polymarket 等预测市场合作；诚信机构有 ESIC、IBIA，服务商有 Sportradar Integrity Services。<span class="tag t-pub">公开</span></dd>
+<dt class="f">关注点</dt><dd><b>国内博彩不合法</b>。研究这一项的意义是看懂海外赛事的商业生态，以及反假赛怎么做，不涉及参与博彩业务。讲的时候先把这一点说清楚。</dd>
+</dl></div>
+</section>
+
+<!-- D7 -->
+<section id="d7" class="c-exp">
+<div class="dh"><span class="code mono">D7</span><h2>观赛与内容分发</h2><span class="pri p2 mono">P2</span><span class="layer">体验与发展层</span></div>
+<p class="one">比赛内容怎么让观众看得懂、看得爽，并分发到更多渠道。</p>
+<div class="qa"><b>可能问：</b>观赛这么重要，为什么放最后？<br><b>答：</b>它主要是转播和数据的二次应用，前面把 D5、D6 研究清楚，这块大部分问题就有答案了；AR、3D 这类新形态目前投入产出还不清楚。</div>
+
+<div class="bp"><h3><span class="n mono">1</span>多视角与数据叙事</h3><dl class="kv">
+<dt>和电竞的关系</dt><dd>"看不懂"是电竞观众的普遍痛点。让观众自选视角、用数据讲故事，是提升观赛体验最直接的办法。</dd>
+<dt>涉及技术</dt><dd>多路流同步播放（主画面、选手第一视角、数据面板）；可切换视角的播放器；数据驱动的叙事图文。</dd>
+<dt class="f">关注点</dt><dd>多路流对带宽和直播平台的要求；与 D5、D6 的联动。</dd>
+</dl></div>
+
+<div class="bp"><h3><span class="n mono">2</span>AR / XR 与 3D 自由视角</h3><dl class="kv">
+<dt>和电竞的关系</dt><dd>把游戏里的角色和场景"搬"到现实舞台或三维空间，是电竞区别于传统体育的独特表现力。</dd>
+<dt>涉及技术</dt><dd>场馆三维重建与数字孪生；摄像机实时跟踪；引擎实时渲染（UE5）；三维采集与重建（深度相机、激光雷达、多相机阵列，3D 高斯泼溅、NeRF）；选手手部动作三维化（采集键鼠输入 + 相机捕捉手部关节）。<span class="tag t-in">内部</span></dd>
+<dt class="f">关注点</dt><dd>实时性与画质很难兼顾；投入产出比。内部材料把它列为未来探索方向。</dd>
+</dl></div>
+
+<div class="bp"><h3><span class="n mono">3</span>游戏端内直播与互动</h3><dl class="kv">
+<dt>和电竞的关系</dt><dd>在游戏客户端里直接看比赛，能把赛事精准推给活跃玩家，再通过竞猜、宝箱等活动反哺游戏活跃。</dd>
+<dt>涉及技术</dt><dd>端内播放器与拉流；弹幕与内容安全管控；实时竞猜与预言；观看时长奖励；未成年人保护；灰度放量。</dd>
+<dt>例子</dt><dd>Box 电视台已支持 CFM、DNFM、无畏契约等 23 款游戏。<span class="tag t-in">内部</span></dd>
+<dt class="f">关注点</dt><dd>端内直播对游戏性能的影响；海外发行商是否有类似做法。</dd>
+</dl></div>
+
+<div class="bp"><h3><span class="n mono">4</span>开播、集锦与二创分发</h3><dl class="kv">
+<dt>和电竞的关系</dt><dd>赛事传播越来越依赖主播二路流和短视频，而不只是官方直播。</dd>
+<dt>涉及技术</dt><dd>游戏端内一键开播推流；多平台同时推流；二路流授权（co-streaming）；AI 自动生成集锦；短视频分发。</dd>
+<dt>例子</dt><dd>Box 开播已用于和平精英、无畏契约、三角洲行动等 7 款游戏，单款月均开播 3000 多场。<span class="tag t-in">内部</span></dd>
+<dt class="f">关注点</dt><dd>赛事版权授权规则；平台分发规则对赛事内容的限制。</dd>
+</dl></div>
+</section>
+
+<!-- D8 -->
+<section id="d8" class="c-exp">
+<div class="dh"><span class="code mono">D8</span><h2>训练与人才发展</h2><span class="pri p2 mono">P2</span><span class="layer">体验与发展层</span></div>
+<p class="one">比赛之外的数据应用：帮选手练得更好，帮俱乐部和国家队找到人才。</p>
+<div class="qa"><b>可能问：</b>AI 教练是热点，为什么排最后？<br><b>答：</b>整个训练域排 P2，是因为赛训系统已经停了，青训报告也显示选手训练工具需求弱。但 AI 教练有 2 名正职在投入，如果您看重新方向，可以单独拎出来提前做。</div>
+
+<div class="bp"><h3><span class="n mono">1</span>赛训与复盘分析</h3><dl class="kv">
+<dt>和电竞的关系</dt><dd>职业战队靠数据复盘提升成绩，这是电竞数据在比赛之外最直接的应用。</dd>
+<dt>涉及技术</dt><dd>对局数据统计；热力图（击杀、阵亡位置）；选手表现雷达图；比赛语音记录与分析；训练日程管理。</dd>
+<dt>例子</dt><dd>我方赛训系统以和平精英为样本做过，已停止<span class="tag t-in">内部</span>；海外有 Mobalytics（2025 年 3 月被 ESL FACEIT Group 收购）、OP.GG。<span class="tag t-pub">公开</span></dd>
+<dt class="f">关注点</dt><dd>青训报告的结论是教练提效工具有需求，选手训练工具需求弱；国内游戏数据只开放给官方及合作方。</dd>
+</dl></div>
+
+<div class="bp"><h3><span class="n mono">2</span>AI 教练</h3><dl class="kv">
+<dt>和电竞的关系</dt><dd>用 AI 给玩家或选手提供建议，是 AI 在电竞里最受关注的方向之一。</dd>
+<dt>涉及技术</dt><dd>对局数据结合大模型给出分析和建议；带形象的语音陪伴；对局中的实时提示叠层。</dd>
+<dt>例子</dt><dd>我方 AI 陪玩 / 游戏教练课题以《金铲铲之战》为样本，投入 2 名正职；竞品有逗逗。<span class="tag t-in">内部</span></dd>
+<dt class="f">关注点</dt><dd>对局中实时给提示可能违反游戏公平规则，部分发行商已限制第三方工具在对局中提供实时优势；商业化天花板。</dd>
+</dl></div>
+
+<div class="bp"><h3><span class="n mono">3</span>天赋测评与选材</h3><dl class="kv">
+<dt>和电竞的关系</dt><dd>电竞选手职业生涯短，选材主要靠经验。用标准化测试量化天赋，可以帮俱乐部更早发现新人。</dd>
+<dt>涉及技术</dt><dd>反应速度、手眼协调、动态追踪、视觉搜索、抗干扰、短期记忆等测试；测试数据建模。</dd>
+<dt>例子</dt><dd>我方天赋小游戏已用于金牌玩家积分赛。<span class="tag t-in">内部</span></dd>
+<dt class="f">关注点</dt><dd>测评分数和真实比赛表现到底有多相关，需要数据验证，这是这类产品能否成立的关键。</dd>
+</dl></div>
+
+<div class="bp"><h3><span class="n mono">4</span>选手数据与国家队选拔</h3><dl class="kv">
+<dt>和电竞的关系</dt><dd>亚运等国家队赛事需要客观的选拔依据，选手数据透明化也是电竞体育化的一部分。</dd>
+<dt>涉及技术</dt><dd>接入游戏比赛服数据；选手、教练、厂商档案管理；数据分析报表与选拔面板。</dd>
+<dt>例子</dt><dd>INFO 系统已用于亚运国家队选拔。<span class="tag t-in">内部</span></dd>
+<dt class="f">关注点</dt><dd>数据来源依赖游戏接口，又回到 D1；选拔标准由体总制定，系统只提供数据支撑。</dd>
+</dl></div>
+</section>
+
+<!-- X -->
+<section id="x" class="c-x">
+<div class="dh"><span class="code">横切</span><h2>4 条横切主题</h2><span class="layer">贯穿 8 个技术域</span></div>
+<p class="one">不单独成域，而是在每个技术域里都要回答的 4 个问题。</p>
+<div class="x-grid">
+<div class="bp"><h3>标准与治理</h3><dl class="kv"><dt>每域都问</dt><dd>这块有没有行业标准，由谁制定，靠什么推动落地。</dd><dt class="f">关注点</dt><dd>4 份内部材料的共同结论是"各自为战、没有统一标准"；可以对照 F1 的 FIA 技术规范。奥林匹克电竞运动会已在 2026 年暂停，亚运会是目前规格最高的综合赛事标准来源。</dd></dl></div>
+<div class="bp"><h3>AI 化</h3><dl class="kv"><dt>每域都问</dt><dd>AI 已经用在哪里，能不能替代人。</dd><dt class="f">关注点</dt><dd>执裁异常检测、AI 导播、AI 教练、AI 办赛与匹配。关键是区分 AI 能直接做决定，还是只能辅助人做决定。</dd></dl></div>
+<div class="bp"><h3>云与算力</h3><dl class="kv"><dt>每域都问</dt><dd>哪些环节在上云，云带来了什么、限制了什么。</dd><dt class="f">关注点</dt><dd>远程与云制作、边缘节点、云手机开房、比赛媒资库。代价是时延、成本和数据跨境。</dd></dl></div>
+<div class="bp"><h3>安全与合规</h3><dl class="kv"><dt>每域都问</dt><dd>涉及哪些数据和权限，在各地是否合规。</dd><dt class="f">关注点</dt><dd>人脸、声纹等生物特征采集；数据出境（ECS 本地部署的原因之一）；博彩合规；反作弊驱动的系统权限争议（Vanguard 已推出按需运行模式）。</dd></dl></div>
+</div>
+</section>
+
+<p class="foot">依据：ECS 发展历程和规划、后台一组业务和团队介绍、电竞技术、汇报_by fannie、电竞青训训练工具产品可行性调研报告等内部材料；公开资料检索截至 2026-10-30。标"待核实"的内容建议汇报时不作为定论使用。</p>
+</div>
+</body>
+</html>
